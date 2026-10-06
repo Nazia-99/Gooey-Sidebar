@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap");
+
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #eaeef6;
+  --panel: #ffffff;
+  --text: #6a778e;
+  --accent: #406ff3;
+  --item-size: 3.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151c;
+    --panel: #1c212b;
+    --text: #8c98b0;
+    --accent: #5a82ff;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--text);
+}
+
+main {
+  padding: 2rem 2rem 2rem 8.5rem;
+  width: 300px;
+}
+
+.navbar {
+  position: fixed;
+  top: calc(1rem + env(safe-area-inset-top, 0px));
+  left: 1rem;
+  height: calc(100vh - 4rem);
+  padding: 1rem 0;
+  background: var(--panel);
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
+}
+
+.navbar__menu {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navbar__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--item-size);
+  width: 5.5rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: 250ms ease all;
+}
+
+.navbar__link:hover {
+  color: #fff;
+}
+
+/* Tooltip label */
+.navbar__link span {
+  position: absolute;
+  left: 100%;
+  margin-left: 1rem;
+  padding: 0.75rem;
+  color: var(--accent);
+  background: var(--panel);
+  border-radius: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-3rem);
+  transition: 250ms ease all;
+  white-space: nowrap;
+}
+
+.navbar:not(:hover) .navbar__link:focus span,
+.navbar__link:hover span {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Sliding highlight */
+.navbar__menu::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  z-index: -1;
+  width: var(--item-size);
+  height: var(--item-size);
+  background: var(--accent);
+  border-radius: 10px;
+  opacity: 0;
+  transition: 250ms cubic-bezier(1, 0.2, 0.1, 1.2) all;
+}
+
+.navbar__menu:has(.navbar__item:hover)::before { opacity: 1; }
+
+.navbar__menu:has(.navbar__item:nth-child(1):hover)::before { top: calc(var(--item-size) * 0); }
+.navbar__menu:has(.navbar__item:nth-child(2):hover)::before { top: calc(var(--item-size) * 1); }
+.navbar__menu:has(.navbar__item:nth-child(3):hover)::before { top: calc(var(--item-size) * 2); }
+.navbar__menu:has(.navbar__item:nth-child(4):hover)::before { top: calc(var(--item-size) * 3); }
+.navbar__menu:has(.navbar__item:nth-child(5):hover)::before { top: calc(var(--item-size) * 4); }
+.navbar__menu:has(.navbar__item:nth-child(6):hover)::before { top: calc(var(--item-size) * 5); }
+.navbar__menu:has(.navbar__item:nth-child(7):hover)::before { top: calc(var(--item-size) * 6); }
+
+/* Gooey squish (odd/even names so it replays between items) */
+.navbar__menu:has(.navbar__item:nth-child(odd):hover)::before  { animation: gooeyA 250ms 1; }
+.navbar__menu:has(.navbar__item:nth-child(even):hover)::before { animation: gooeyB 250ms 1; }
+
+@keyframes gooeyA {
+  0%, 100% { transform: scale(1, 1); }
+  50%      { transform: scale(0.5, 1.5); }
+}
+@keyframes gooeyB {
+  0%, 100% { transform: scale(1, 1); }
+  50%      { transform: scale(0.5, 1.5); }
+}
